@@ -1,0 +1,47 @@
+[
+  {
+    "epoch": 1,
+    "lr": 0.0015,
+    "train_loss": 4.7436,
+    "val_loss": 4.3165,
+    "train_ppl": 114.85,
+    "val_ppl": 74.93,
+    "checkpoint": "checkpoints_stride_6\\checkpoint_epoch_1.npz"
+  },
+  {
+    "epoch": 2,
+    "lr": 0.003,
+    "train_loss": 3.7819,
+    "val_loss": 3.9419,
+    "train_ppl": 43.9,
+    "val_ppl": 51.52,
+    "checkpoint": "checkpoints_stride_6\\checkpoint_epoch_2.npz"
+  },
+  {
+    "epoch": 3,
+    "lr": 0.0023250000000000002,
+    "train_loss": 3.2904,
+    "val_loss": 3.9307,
+    "train_ppl": 26.85,
+    "val_ppl": 50.94,
+    "checkpoint": "checkpoints_stride_6\\checkpoint_epoch_3.npz"
+  },
+  {
+    "epoch": 4,
+    "lr": 0.0009750000000000004,
+    "train_loss": 2.9743,
+    "val_loss": 3.9092,
+    "train_ppl": 19.58,
+    "val_ppl": 49.86,
+    "checkpoint": "checkpoints_stride_6\\checkpoint_epoch_4.npz"
+  },
+  {
+    "epoch": 5,
+    "lr": 0.00030000000000000003,
+    "train_loss": 2.8138,
+    "val_loss": 3.9075,
+    "train_ppl": 16.67,
+    "val_ppl": 49.77,
+    "checkpoint": "checkpoints_stride_6\\checkpoint_epoch_5.npz"
+  }
+]

@@ -1,0 +1,166 @@
+{
+  "Stride 6": {
+    "Epoch 1": {
+      "train_loss": 4.1708,
+      "train_ppl": 64.77,
+      "val_loss": 4.3165,
+      "val_ppl": 74.93,
+      "word_formation_pct": 43.5,
+      "distinct_1": 0.667,
+      "distinct_2": 0.912,
+      "generations": {
+        "once upon time": "once upon time.\nThe Eme giny qued the Fle se.\n\"Ets of the Re fodes thillears",
+        "The brave knight ": "The brave knight Ice preioding barcent and ale.\nW\nThe Hhes of the spe todes thille fin",
+        "In the middle of the garden ": "In the middle of the garden Ist bwe, jed faock boke.\nIntns.\nThe Ond the Ace stras, and w",
+        "A clever fox noticed ": "A clever fox noticed Hood and ble, be the faouse of the Frons.\n\"Ans of the trocine, \"The tufts",
+        "Long ago in a distant kingdom ": "Long ago in a distant kingdom I gre ae, a to the haust of the Gots.\n\"Ans of thens, and a very vimhe of the"
+      }
+    },
+    "Epoch 2": {
+      "train_loss": 3.4204,
+      "train_ppl": 30.58,
+      "val_loss": 3.9419,
+      "val_ppl": 51.52,
+      "word_formation_pct": 57.8,
+      "distinct_1": 0.688,
+      "distinct_2": 0.937,
+      "generations": {
+        "once upon time": "once upon time air cons, the grel, they were the trins.\nThe Jupitey of a brullals, the him",
+        "The brave knight ": "The brave knight Tortoise, the start, whoveneze amothes, and her him.\nEvent of the screm",
+        "In the middle of the garden ": "In the middle of the garden Thome, the imping\nThe displuled the brins.\nEvery huplfed his down a w",
+        "A clever fox noticed ": "A clever fox noticed arly movenh to the pach dark.\nThe water, the smalls.\n\"Tho said the scts",
+        "Long ago in a distant kingdom ": "Long ago in a distant kingdom enpiter, the imed dove in alper.\nHe, the smalls.\n\"Tho said the scok"
+      }
+    },
+    "Epoch 3": {
+      "train_loss": 3.0709,
+      "train_ppl": 21.56,
+      "val_loss": 3.9307,
+      "val_ppl": 50.94,
+      "word_formation_pct": 44.4,
+      "distinct_1": 0.778,
+      "distinct_2": 1.0,
+      "generations": {
+        "once upon time": "once upon time, \"Whing the impor's of seclowed, and wine a clearms of seet that spring hey",
+        "The brave knight ": "The brave knight Somple.\nAnty hach pos, the frest seky.\nAty a try saide.\nThe w",
+        "In the middle of the garden ": "In the middle of the garden Redice\nAn arone lived the smaker, cone.\nSunked themself is at its, and c",
+        "A clever fox noticed ": "A clever fox noticed ravell and smolder threead, flowersing the flows.\nHe dond, the best meelling",
+        "Long ago in a distant kingdom ": "Long ago in a distant kingdom just with arone to percted to the sky.\nHe, the winy sunte cruch saide, \"I"
+      }
+    },
+    "Epoch 4": {
+      "train_loss": 2.843,
+      "train_ppl": 17.17,
+      "val_loss": 3.9092,
+      "val_ppl": 49.86,
+      "word_formation_pct": 57.8,
+      "distinct_1": 0.812,
+      "distinct_2": 1.0,
+      "generations": {
+        "once upon time": "once upon time, \"Whing the joy, they had fox.\nA sidek.\nThery highbeld through the rave",
+        "The brave knight ": "The brave knight Roreped, the very might\nTo late.\nAs the tinterning among apperoring in the jo",
+        "In the middle of the garden ": "In the middle of the garden Redgs\nAn the woods and mos, the by sunbels of the clear and seet that any a tri",
+        "A clever fox noticed ": "A clever fox noticed rave alerp.\nThere! Wolf! Goodmondene water darm most, the rooming bulling",
+        "Long ago in a distant kingdom ": "Long ago in a distant kingdom justers.\nAs were brifed the seels.\nTheruitherden.\n\"Tho I gers, ared"
+      }
+    },
+    "Epoch 5": {
+      "train_loss": 2.7575,
+      "train_ppl": 15.76,
+      "val_loss": 3.9075,
+      "val_ppl": 49.77,
+      "word_formation_pct": 60.3,
+      "distinct_1": 0.778,
+      "distinct_2": 1.0,
+      "generations": {
+        "once upon time": "once upon time, \"Whying a pat the quiet wheres water, and construs, wheer the gooden a fin",
+        "The brave knight ": "The brave knight Tornown, time do nothing ary mathine.\nThe found meady turning across",
+        "In the middle of the garden ": "In the middle of the garden Riding\nAs\nWhere quiet acre agains, the wooden will reace.\nThe lived boy c",
+        "A clever fox noticed ": "A clever fox noticed raveler, the impered who flows.\nHe wonder the rave, byward hearms of the",
+        "Long ago in a distant kingdom ": "Long ago in a distant kingdom race of sclient and lack and scient and hughed water disphee them.\n\nThe Grass"
+      }
+    }
+  },
+  "Stride 2": {
+    "Epoch 1": {
+      "train_loss": 3.2736,
+      "train_ppl": 26.41,
+      "val_loss": 3.9172,
+      "val_ppl": 50.26,
+      "word_formation_pct": 48.3,
+      "distinct_1": 0.767,
+      "distinct_2": 1.0,
+      "generations": {
+        "once upon time": "once upon time.\n\nThe As Tond quiet.\nHe crees, the Red Soked ached and he winter o",
+        "The brave knight ": "The brave knight Rid the se.\nThe commong the Empered.\nAty over Rver Thold in the te mat",
+        "In the middle of the garden ": "In the middle of the garden jance.\n\"A compched and sect warked ampplesple, and oblentains, han",
+        "A clever fox noticed ": "A clever fox noticed just downe, no tach lige.\nOn the Greead, he cold, quiet sey c",
+        "Long ago in a distant kingdom ": "Long ago in a distant kingdom Ride the Gostered, \"Withile traveler, and poldile ables, \"The mo time"
+      }
+    },
+    "Epoch 2": {
+      "train_loss": 2.5849,
+      "train_ppl": 13.26,
+      "val_loss": 4.069,
+      "val_ppl": 58.5,
+      "word_formation_pct": 64.6,
+      "distinct_1": 0.677,
+      "distinct_2": 0.953,
+      "generations": {
+        "once upon time": "once upon time, for the fresh air. Ant and the twosteltildiers bitch and the Clockmaker, \"I",
+        "The brave knight ": "The brave knight Saredes, semall to quill, the Giet cleoves a pergain, and seet its coldi",
+        "In the middle of the garden ": "In the middle of the garden Good the Emperorm, \"Little tried last, If a will not be pred black gets, and b",
+        "A clever fox noticed ": "A clever fox noticed raveler, the jouth\nThe Gironing and fill beexins and sued, black to the Anti",
+        "Long ago in a distant kingdom ": "Long ago in a distant kingdom Jupiter, entile.\nThe Emperorn and the Gick trees, and seet for its wooden"
+      }
+    },
+    "Epoch 3": {
+      "train_loss": 2.139,
+      "train_ppl": 8.49,
+      "val_loss": 4.3906,
+      "val_ppl": 80.69,
+      "word_formation_pct": 68.3,
+      "distinct_1": 0.778,
+      "distinct_2": 1.0,
+      "generations": {
+        "once upon time": "once upon time, they fir above in then with grass, they fox.\n\"Nat you wooden mecers, no, and d",
+        "The brave knight ": "The brave knight Good.\nA snow bricket.\nAt the cousles, builwer the Sold should not behingle",
+        "In the middle of the garden ": "In the middle of the garden race.\n\nThe Discovery of the Emperorser, and cousinulls that fearing water, the",
+        "A clever fox noticed ": "A clever fox noticed enly, dincientlew. That No Shere across the hapboute and grounds our",
+        "Long ago in a distant kingdom ": "Long ago in a distant kingdom railbled and singinging, nophere.\nThe coune who lived in a quiet clocks the woods"
+      }
+    },
+    "Epoch 4": {
+      "train_loss": 1.8184,
+      "train_ppl": 6.16,
+      "val_loss": 4.6572,
+      "val_ppl": 105.34,
+      "word_formation_pct": 71.9,
+      "distinct_1": 0.766,
+      "distinct_2": 0.984,
+      "generations": {
+        "once upon time": "once upon time, bill as aberumpetyes you a single dropiselt on the from thought, just as the Mill",
+        "The brave knight ": "The brave knight Gentle.\nAsch was started second.\n\nThe Princos of the Nok Someth and the",
+        "In the middle of the garden ": "In the middle of the garden itk out, careful, \"What apan to bok.\nThis is felniant sweets",
+        "A clever fox noticed ": "A clever fox noticed just withowe.\nIn a quiet brass aphematics of the winty sek to dark in the",
+        "Long ago in a distant kingdom ": "Long ago in a distant kingdom race.\nAs, soonin, and I will blow the quiet house.\nOavy morning begin?\"\n"
+      }
+    },
+    "Epoch 5": {
+      "train_loss": 1.684,
+      "train_ppl": 5.39,
+      "val_loss": 4.7778,
+      "val_ppl": 118.84,
+      "word_formation_pct": 78.3,
+      "distinct_1": 0.754,
+      "distinct_2": 0.985,
+      "generations": {
+        "once upon time": "once upon time, there was across the blockmo, the traveler and small granches tending preful",
+        "The brave knight ": "The brave knight Gentle.\nAs near themaintly truth, the planet joke all.\nAs they had cy were nap",
+        "In the middle of the garden ": "In the middle of the garden itk to be at the sun, blocks with a small laughed at late with jupling to the eyepi",
+        "A clever fox noticed ": "A clever fox noticed just was fewoste.\nTheir across the bus, there danty water, the earth.\nTh",
+        "Long ago in a distant kingdom ": "Long ago in a distant kingdom railledge of the matheountain, dark evening, he was arrived, puous and distant"
+      }
+    }
+  }
+}
