@@ -527,10 +527,20 @@ class TinyGPTLanguageModel:
             # Focus on the very last predicted token position (index -1)
             last_logits = logits[0, -1, :].copy()
 
-            # Apply repetition penalty to recent context tokens
+            # Apply repetition penalty to recent context tokens (preserving punctuation and whitespace)
             if repetition_penalty > 1.0:
                 recent = set(context_tokens[-8:])
                 for t_id in recent:
+                    # Do not penalize whitespace, punctuation, or basic syntactic delimiters
+                    if hasattr(tokenizer, "id_to_token") and t_id in getattr(tokenizer, "id_to_token"):
+                        tok_str = tokenizer.id_to_token[t_id]
+                        if tok_str.strip() in ("", ".", ",", "!", "?", '"', "'", "-", ":", ";"):
+                            continue
+                    elif hasattr(tokenizer, "id_to_char") and t_id in getattr(tokenizer, "id_to_char"):
+                        tok_str = tokenizer.id_to_char[t_id]
+                        if tok_str in (" ", "\n", ".", ",", "!", "?", '"', "'", "-"):
+                            continue
+
                     if last_logits[t_id] > 0:
                         last_logits[t_id] /= repetition_penalty
                     else:

@@ -115,31 +115,31 @@ def run_temperature_sweep(
 def interactive_mode(model: TinyGPTLanguageModel, tokenizer):
     tok_type = "BPE Subwords" if isinstance(tokenizer, BPETokenizer) else "Characters"
     print("=" * 70)
-    print(f"      STAGE 7: TINY GPT TRANSFORMER TEXT GENERATOR ({tok_type.upper()})")
+    print(f"      STAGE 8+: TINY GPT TRANSFORMER TEXT GENERATOR ({tok_type.upper()})")
     print("=" * 70)
     print(f"Model Configuration: {model.n_heads} Heads | d_model={model.d_model} | Vocab={model.vocab_size} {tok_type}")
-    print("Educational Note: This model operates from scratch with causal self-attention.")
+    print("Settings: Temperature=0.55 | Top-K=20 | Top-P=0.88 (Clean English Generation)")
     print("Type 'q' or 'exit' anytime to quit.\n")
 
     while True:
         try:
-            prompt = input("Enter prompt (e.g., 'The fox ', 'Once upon a time ', 'The little robot '): ").strip()
+            prompt = input("Enter prompt (e.g., 'Once upon a time', 'The little bird', 'The wise king'): ").strip()
             if prompt.lower() in ("q", "quit", "exit"):
                 print("Goodbye!")
                 break
             if not prompt:
-                prompt = "The "
+                prompt = "Once upon a time"
 
             if isinstance(tokenizer, BPETokenizer):
                 subwords = tokenizer.tokenize_to_strings(prompt)
                 print(f"  [BPE Subword Decomposition: {subwords}]")
 
-            unit_label = "tokens (~1.6 chars each)" if isinstance(tokenizer, BPETokenizer) else "characters"
+            unit_label = "tokens (~2 chars each)" if isinstance(tokenizer, BPETokenizer) else "characters"
             length_str = input(f"How many {unit_label} to generate? (default 50): ").strip()
             length = int(length_str) if length_str else 50
 
-            temp_str = input("Temperature [0.3 = focused, 0.7 = balanced, 1.2 = wild] (default 0.7): ").strip()
-            temp = float(temp_str) if temp_str else 0.7
+            temp_str = input("Temperature [0.3 = focused/precise, 0.55 = balanced/coherent, 1.0 = creative] (default 0.55): ").strip()
+            temp = float(temp_str) if temp_str else 0.55
 
             if length <= 0:
                 print(">> Length must be greater than 0.\n")
@@ -155,7 +155,9 @@ def interactive_mode(model: TinyGPTLanguageModel, tokenizer):
                 prompt=prompt,
                 max_new_tokens=length,
                 temperature=temp,
-                repetition_penalty=1.1
+                repetition_penalty=1.05,
+                top_k=20,
+                top_p=0.88
             )
             print(generated)
             print("-" * 60 + "\n")
@@ -169,13 +171,14 @@ def interactive_mode(model: TinyGPTLanguageModel, tokenizer):
 
 def main():
     parser = argparse.ArgumentParser(description="Generate text using the Tiny GPT Transformer.")
-    parser.add_argument("--prompt", type=str, default=None, help="Initial text prompt (e.g. 'The fox ')")
+    parser.add_argument("--prompt", type=str, default=None, help="Initial text prompt (e.g. 'Once upon a time')")
     parser.add_argument("--length", type=int, default=50, help="Number of new tokens to generate (default: 50)")
-    parser.add_argument("--temp", type=float, default=0.7, help="Sampling temperature (default: 0.7)")
+    parser.add_argument("--temp", type=float, default=0.55, help="Sampling temperature (default: 0.55 for coherent English)")
     parser.add_argument("--temp-sweep", action="store_true", help="Run a comparison across multiple temperatures")
-    parser.add_argument("--rep-penalty", type=float, default=1.1, help="Repetition penalty factor (default: 1.1)")
-    parser.add_argument("--top-k", type=int, default=None, help="Top-K token filtering (optional)")
-    parser.add_argument("--top-p", type=float, default=None, help="Top-P nucleus sampling threshold (e.g. 0.9)")
+    parser.add_argument("--rep-penalty", type=float, default=1.05, help="Repetition penalty factor (default: 1.05)")
+    parser.add_argument("--top-k", type=int, default=20, help="Top-K token filtering (default: 20)")
+    parser.add_argument("--top-p", type=float, default=0.88, help="Top-P nucleus sampling threshold (default: 0.88)")
+    parser.add_argument("--complete-sentence", action="store_true", help="Continue generation until the end of the sentence")
     parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility")
     parser.add_argument("--checkpoint", type=str, default=None, help="Checkpoint file path (.npz)")
     parser.add_argument("--vocab", type=str, default=None, help="Vocabulary JSON file path")
@@ -184,7 +187,7 @@ def main():
     model, tokenizer = load_transformer(checkpoint_path=args.checkpoint, vocab_path=args.vocab)
 
     if args.temp_sweep:
-        prompt = args.prompt if args.prompt is not None else "The "
+        prompt = args.prompt if args.prompt is not None else "Once upon a time"
         run_temperature_sweep(
             model,
             tokenizer,
@@ -198,16 +201,34 @@ def main():
             print(f"Prompt: {repr(args.prompt)}")
             print(f"BPE Subwords: {tokenizer.tokenize_to_strings(args.prompt)}")
             print("-" * 60)
+        
+        # Determine generation length
+        gen_len = args.length
+        if args.complete_sentence:
+            # Allow additional headroom to conclude on sentence boundary
+            gen_len = max(args.length, 60)
+
         generated = model.generate(
             tokenizer,
             prompt=args.prompt,
-            max_new_tokens=args.length,
+            max_new_tokens=gen_len,
             temperature=args.temp,
             repetition_penalty=args.rep_penalty,
             top_k=args.top_k,
             top_p=args.top_p,
             seed=args.seed
         )
+
+        if args.complete_sentence:
+            # Cleanly trim up to the last sentence punctuation (. ! ? ")
+            last_punct = -1
+            for punct in [".", "!", "?", '."']:
+                pos = generated.rfind(punct)
+                if pos > last_punct and pos >= len(args.prompt):
+                    last_punct = pos + len(punct)
+            if last_punct > 0:
+                generated = generated[:last_punct]
+
         print(generated)
     else:
         interactive_mode(model, tokenizer)

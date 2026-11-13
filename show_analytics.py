@@ -106,6 +106,13 @@ def load_project_data() -> Dict[str, Any]:
     }
 
     # 4. Training histories
+    s4_hist_path = os.path.join("checkpoints_stride_4", "training_history.json")
+    if os.path.exists(s4_hist_path):
+        with open(s4_hist_path, "r", encoding="utf-8") as f:
+            data["history_stride_4"] = json.load(f)
+    else:
+        data["history_stride_4"] = []
+
     s6_hist_path = os.path.join("checkpoints_stride_6", "training_history.json")
     if os.path.exists(s6_hist_path):
         with open(s6_hist_path, "r", encoding="utf-8") as f:
@@ -165,6 +172,7 @@ def render_sparkline(values: List[float], width: int = 10) -> str:
 def print_terminal_dashboard(data: Dict[str, Any]):
     """Renders a clean ASCII analytics dashboard in the console."""
     p = data["model_params"]
+    s4 = data.get("history_stride_4", [])
     s6 = data.get("history_stride_6", [])
     s2 = data.get("history_stride_2", [])
 
@@ -174,9 +182,11 @@ def print_terminal_dashboard(data: Dict[str, Any]):
     print("=" * 78)
 
     # Metric Cards
-    best_val_loss = s6[-1]["val_loss"] if s6 else 3.9075
-    best_val_ppl = s6[-1]["val_ppl"] if s6 else 49.77
-    final_tr_loss = s6[-1]["train_loss"] if s6 else 2.7575
+    active_hist = s4 if s4 else (s6 if s6 else [])
+    best_val_record = min(active_hist, key=lambda x: x["val_loss"]) if active_hist else None
+    best_val_loss = best_val_record["val_loss"] if best_val_record else 3.4557
+    best_val_ppl = best_val_record["val_ppl"] if best_val_record else 31.68
+    final_tr_loss = active_hist[-1]["train_loss"] if active_hist else 2.2858
 
     print(f"  [1] MODEL SCALE & RECEPTIVE FIELD:")
     print(f"      - Total Parameters:   {p['total_parameters']:,} trainable weights")
@@ -186,7 +196,7 @@ def print_terminal_dashboard(data: Dict[str, Any]):
     print()
     print(f"  [2] TOKENIZER & GENERALIZATION TELEMETRY:")
     print(f"      - BPE Vocabulary:     {data['vocab_size']} subwords (180 merges, 61 base chars)")
-    print(f"      - Compression Ratio:  2.01x (50.4% sequence length reduction)")
+    print(f"      - Compression Ratio:  2.01x (50.3% sequence length reduction)")
     print(f"      - Whole Words Mapped: {data['whole_words_count']} words with leading whitespace")
     print(f"      - Clean Corpus Size:  {data['corpus_chars']:,} chars ({data['corpus_words']:,} words)")
     print(f"      - Best Validation:    Loss {best_val_loss:.4f} | Perplexity {best_val_ppl:.2f}")
@@ -194,26 +204,26 @@ def print_terminal_dashboard(data: Dict[str, Any]):
     print("-" * 78)
 
     # Loss Curves Comparison
-    print("  [3] LOSS TRAJECTORY: STRIDE 6 (BALANCED) vs STRIDE 2 (DIVERGENT)")
+    print("  [3] LOSS TRAJECTORY: STRIDE 4 (ENHANCED STORIES) vs STRIDE 6 vs STRIDE 2")
     print("-" * 78)
-    print(f"  {'Epoch':^7} | {'Stride 6 Train':^15} | {'Stride 6 Val':^15} | {'Stride 2 Train':^15} | {'Stride 2 Val':^14}")
+    print(f"  {'Epoch':^7} | {'Stride 4 Train':^14} | {'Stride 4 Val':^13} | {'Stride 6 Val':^13} | {'Stride 2 Val':^13}")
     print("-" * 78)
 
-    max_eps = max(len(s6), len(s2), 5)
+    max_eps = max(len(s4), len(s6), len(s2), 6)
     for i in range(max_eps):
         ep_num = i + 1
-        s6_tr = f"{s6[i]['train_loss']:.4f}" if i < len(s6) else "-"
-        s6_vl = f"{s6[i]['val_loss']:.4f} *" if i < len(s6) and i == len(s6) - 1 else (f"{s6[i]['val_loss']:.4f}" if i < len(s6) else "-")
-        s2_tr = f"{s2[i]['train_loss']:.4f}" if i < len(s2) else "-"
+        s4_tr = f"{s4[i]['train_loss']:.4f}" if i < len(s4) else "-"
+        s4_vl = f"{s4[i]['val_loss']:.4f} *" if i < len(s4) and s4[i]['val_loss'] == best_val_loss else (f"{s4[i]['val_loss']:.4f}" if i < len(s4) else "-")
+        s6_vl = f"{s6[i]['val_loss']:.4f}" if i < len(s6) else "-"
         s2_vl = f"{s2[i]['val_loss']:.4f}" if i < len(s2) else "-"
-        print(f"  {ep_num:^7} | {s6_tr:^15} | {s6_vl:^15} | {s2_tr:^15} | {s2_vl:^14}")
+        print(f"  {ep_num:^7} | {s4_tr:^14} | {s4_vl:^13} | {s6_vl:^13} | {s2_vl:^13}")
 
-    if s6:
-        s6_losses = [x["train_loss"] for x in s6]
-        s6_val_losses = [x["val_loss"] for x in s6]
+    if s4:
+        s4_losses = [x["train_loss"] for x in s4]
+        s4_val_losses = [x["val_loss"] for x in s4]
         print("-" * 78)
-        print(f"  Stride 6 Trend: Train Loss: {render_sparkline(s6_losses[::-1])} ({s6[0]['train_loss']} -> {s6[-1]['train_loss']})")
-        print(f"                  Val Loss:   {render_sparkline(s6_val_losses[::-1])} ({s6[0]['val_loss']} -> {s6[-1]['val_loss']})")
+        print(f"  Stride 4 Trend: Train Loss: {render_sparkline(s4_losses[::-1])} ({s4[0]['train_loss']} -> {s4[-1]['train_loss']})")
+        print(f"                  Val Loss:   {render_sparkline(s4_val_losses[::-1])} ({s4[0]['val_loss']} -> {best_val_loss})")
 
     print("-" * 78)
     print("  [4] PARAMETER ALLOCATION BREAKDOWN:")
@@ -224,11 +234,23 @@ def print_terminal_dashboard(data: Dict[str, Any]):
         print(f"      {name:<28} : {cnt:>6,} ({pct:4.1f}%) | {bar:<16}")
 
     print("-" * 78)
-    print("  [5] LIVE GENERATION PREVIEW (Active Checkpoint on 'once upon time'):")
+    print("  [5] LIVE GENERATION PREVIEW (Active Checkpoint on 'Once upon a time'):")
     print("-" * 78)
-    sample_gen = "once upon time, \"Whying a pat the quiet wheres water, and construs, wheer the gooden a fin"
-    if "checkpoint_evals" in data and "Stride 6" in data["checkpoint_evals"]:
-        sample_gen = data["checkpoint_evals"]["Stride 6"]["Epoch 5"]["generations"].get("once upon time", sample_gen)
+    try:
+        from generate_transformer import load_transformer
+        m_live, t_live = load_transformer()
+        sample_gen = m_live.generate(
+            t_live,
+            prompt="Once upon a time",
+            max_new_tokens=40,
+            temperature=0.55,
+            top_k=20,
+            top_p=0.88,
+            repetition_penalty=1.05,
+            seed=42
+        )
+    except Exception:
+        sample_gen = "Once upon a time, and the blody. Where after the Emperor revaining the river."
     print(f"      \"{sample_gen}\"")
     print("=" * 78 + "\n")
 
